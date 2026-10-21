@@ -1,0 +1,28 @@
+# Python / tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Model downloads / exports
+*.pt
+*.pth
+*.onnx
+*.engine
+runs/
+
+# User videos, rendered results, private recordings
+/data/input/*
+!/data/input/.gitkeep
+/outputs/*
+!/outputs/.gitkeep

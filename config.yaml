@@ -1,0 +1,41 @@
+# RoadSpeed | Camera-specific settings live here.
+video:
+  input: data/input/video.mp4
+  output: outputs/annotated.mp4
+  csv: outputs/tracks.csv
+  calibration_image: outputs/calibration_frame.jpg
+  max_seconds: 20                 # null = full video
+
+model:
+  weights: yolo11s.pt             # First run downloads this model
+  confidence: 0.10                # Low threshold helps ByteTrack association
+  image_size: 640
+  tracker: bytetrack.yaml
+  device: auto                    # auto, cpu, or 0 (first CUDA GPU)
+  classes: [car, motorcycle, bus, truck, bicycle]
+
+speed:
+  window_seconds: 1.0
+  min_elapsed_seconds: 0.5
+  max_track_gap_seconds: 0.5
+  image_points: null
+  world_points_meters: null
+
+  # Example ONLY. Replace with four matching, measured road-plane locations.
+  # Comment out both 'null' lines above and uncomment BOTH blocks to activate.
+  # image_points:
+  #   - [700, 300]    # point 1: pixels in the original video
+  #   - [1200, 300]   # point 2
+  #   - [1500, 850]   # point 3
+  #   - [400, 850]    # point 4
+  # world_points_meters:
+  #   - [0, 0]        # point 1: same location in meters
+  #   - [7, 0]        # point 2
+  #   - [7, 20]       # point 3
+  #   - [0, 20]       # point 4
+
+visualization:
+  trail_length: 25
+  line_thickness: 2
+  font_scale: 0.60
+  grid_spacing_px: 100
