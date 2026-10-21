@@ -1,5 +1,5 @@
 <div align="left">
-  <img src="assets/roadspeed-logo.png" alt="RoadSpeed" width="460">
+  <img src="assets/logo.png" alt="RoadSpeed" width="460">
 </div>
 
 # RoadSpeed
