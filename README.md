@@ -8,10 +8,90 @@ Detect vehicles with **YOLO11s**, follow IDs with **ByteTrack**, and estimate **
 
 ## Demo
 
-Vehicle detection, tracking, and speed estimation using YOLO11, ByteTrack, and OpenCV Homography.
+Vehicle detection, tracking, and speed estimation using YOLO11, ByteTrack, and OpenCV Homography. Please see the results inside assets folder, this image is polished.
 
-![RoadSpeed Detection and Tracking Demo](assets/demo.gif)
+![RoadSpeed Traffic Detection](assets/traffic.png)
 
+## Colab run
+
+Add Zip folder and video.mp4 to the same directory on Google Colab and run below code: 
+
+```python
+import sys
+import zipfile
+import subprocess
+from pathlib import Path
+
+# Extract ZIP
+extract_dir = Path("/content/roadspeed_project")
+
+with zipfile.ZipFile("/content/DT_Speed.zip") as z:
+    z.extractall(extract_dir)
+
+project = next(
+    p.parent for p in extract_dir.rglob("main.py")
+    if (p.parent / "config.yaml").exists()
+)
+
+# Install dependencies
+subprocess.run(
+    [sys.executable, "-m", "pip", "install", "-q",
+     "-r", str(project / "requirements.txt")],
+    check=True
+)
+
+import yaml
+import cv2
+
+# Read video resolution
+video_path = "/content/video.mp4"
+
+cap = cv2.VideoCapture(video_path)
+if not cap.isOpened():
+    raise FileNotFoundError(video_path)
+
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+cap.release()
+
+# Override configuration
+config_path = project / "config.yaml"
+
+with open(config_path) as f:
+    config = yaml.safe_load(f)
+
+config["video"]["input"] = video_path
+
+# Example calibration, scaled to actual video resolution
+config["speed"]["image_points"] = [
+    [round(700 * width / 1920), round(300 * height / 1080)],
+    [round(1200 * width / 1920), round(300 * height / 1080)],
+    [round(1500 * width / 1920), round(850 * height / 1080)],
+    [round(400 * width / 1920), round(850 * height / 1080)]
+]
+
+# Assumed 7m x 20m road area — demonstration only
+config["speed"]["world_points_meters"] = [
+    [0, 0],
+    [7, 0],
+    [7, 20],
+    [0, 20]
+]
+
+with open(config_path, "w") as f:
+    yaml.safe_dump(config, f, sort_keys=False)
+
+# Run detection + tracking + speed estimation
+subprocess.run(
+    [sys.executable, "main.py", "run"],
+    cwd=project,
+    check=True
+)
+
+print("Video:", project / "outputs/annotated.mp4")
+print("CSV:", project / "outputs/tracks.csv")
+print("NOTE: km/h values use demonstration calibration.")
+```
 
 ## Setup
 
