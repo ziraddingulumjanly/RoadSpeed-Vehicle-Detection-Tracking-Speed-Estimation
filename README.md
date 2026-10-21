@@ -4,7 +4,7 @@
 
 # RoadSpeed
 
-Detect vehicles with **YOLO11s**, follow IDs with **ByteTrack**, and estimate **km/h** using an **OpenCV road-plane homography**. Produces an annotated MP4 and a per-frame CSV. Python-only; no notebook, database, or cloud account required.
+Detect vehicles with **YOLO11s**, follow IDs with **ByteTrack**, and estimate **km/h** using an **OpenCV road-plane homography**. Produces an annotated MP4 and a per-frame CSV. 
 
 ## Setup
 
