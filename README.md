@@ -10,7 +10,8 @@ Detect vehicles with **YOLO11s**, follow IDs with **ByteTrack**, and estimate **
 
 Vehicle detection, tracking, and speed estimation using YOLO11, ByteTrack, and OpenCV Homography.
 
-[▶ Watch Demo Video](assets/annotated.mp4)
+![RoadSpeed Detection and Tracking Demo](assets/demo.gif)
+
 
 ## Setup
 
